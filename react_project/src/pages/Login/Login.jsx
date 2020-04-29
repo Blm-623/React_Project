@@ -1,13 +1,31 @@
 import React, { Component } from 'react'
 import { Form, Input, Button } from 'antd';
+// import ajax from '../../api/ajax'
+import {reqLogin} from '../../api/index'
 
 import "./css/login.less"
 import logo from './images/logo.png'
+
+// // axios拦截器作用1
+// //                解决服务器不能解决json问题 将json转化为urlencoded格式
+//           //       统一返回data数据 而不是从response中拿到data
+// axios.interceptors.request.use((config)=>{
+//   const {method,data}=config
+//   if (method.toLocaleLowerCase()==="post" && data instanceof Object) {
+//     config.data = qs.stringify(data)
+//   }
+//   return config
+// })
+
+
 export default class Login extends Component {
    
-     onFinish = values => {
+     onFinish = async values => {
        //表单提交并且验证数据成功的回调函数 自动收集数据
-      // console.log('Received values of form: ', values);
+      //  发送axios请求
+      // values 为json格式 服务器不认识 所以自己要拼写uainc
+      let result = await reqLogin(values)
+      console.log(result);
   }
   passwordTest=(_,value="")=>{//value设置一个默认值 否则自定义的规则 返回的是一个undefined
     // vlaues就是可在表单输入的内容
@@ -67,7 +85,7 @@ export default class Login extends Component {
               <Input
                
                 type="password"
-                placeholder="吾乃常山赵子龙"
+                placeholder="油条炸糕豆腐脑!!"
               />
             </Form.Item>
             <Form.Item>
