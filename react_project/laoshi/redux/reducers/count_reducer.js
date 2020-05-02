@@ -1,11 +1,11 @@
-import {INCREMENT,DECREMENT} from './action_type'
+import {INCREMENT,DECREMENT} from '../action_type'
 export default function (preState=0,action) {
   let {type,data}=action
   let newState
   switch (type) {
     case INCREMENT:
       // 操作一些加的
-
+      console.log('jia')
       newState = preState + data
       break;
     case DECREMENT:

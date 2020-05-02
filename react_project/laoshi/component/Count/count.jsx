@@ -1,29 +1,29 @@
 import React, { Component } from 'react'
 import store from '../../redux/store'
-import {createIncrementAction,createDecrementAction} from '../../redux/count_action'
+import {increment,decrement} from '../../redux/actions/count_action'
 export default class count extends Component {
 
 increment=()=>{
  let {value}= this.refs.userSelected
- store.dispatch(createIncrementAction(value*1))
+ store.dispatch(increment(value*1))
 }
 decrement=()=>{
   let {value}= this.refs.userSelected
-  store.dispatch(createDecrementAction(value*1))
+  store.dispatch(decrement(value*1))
 
 
 }
 incrementIfodd=()=>{
     let {value}= this.refs.userSelected
     if (store.getState() % 2===1) {
-      store.dispatch(createIncrementAction(value*1))
+      store.dispatch(increment(value*1))
       
     }
 }
 incrementAsync=()=>{
   let {value}= this.refs.userSelected
   setTimeout(() => {
-    store.dispatch(createIncrementAction(value*1))
+    store.dispatch(increment(value*1))
     
   }, 1000);
 }
