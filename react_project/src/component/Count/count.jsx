@@ -1,48 +1,36 @@
 import React, { Component } from 'react'
-
+import store from '../../redux/store'
+import {createIncrementAction,createDecrementAction} from '../../redux/count_action'
 export default class count extends Component {
-state ={
-  count:0
-}
+
 increment=()=>{
  let {value}= this.refs.userSelected
-//  console.log(value);
-let {count} = this.state
-count += value*1
-this.setState({count})
+ store.dispatch(createIncrementAction(value*1))
 }
 decrement=()=>{
   let {value}= this.refs.userSelected
-//  console.log(value);
-let {count} = this.state
-count -= value*1
-this.setState({count})
+  store.dispatch(createDecrementAction(value*1))
+
 
 }
 incrementIfodd=()=>{
- let {count}= this.state
-  if (count%2 === 1) {
     let {value}= this.refs.userSelected
-    //  console.log(value);
-    count += value*1
-    this.setState({count})
-    
-  }
+    if (store.getState() % 2===1) {
+      store.dispatch(createIncrementAction(value*1))
+      
+    }
 }
 incrementAsync=()=>{
   let {value}= this.refs.userSelected
-    //  console.log(value);
-    let {count} = this.state
-    count += value*1
   setTimeout(() => {
+    store.dispatch(createIncrementAction(value*1))
     
-    this.setState({count})
   }, 1000);
 }
   render() {
     return (
       <div>
-      <h1>当前求和为:{this.state.count}</h1>
+      <h1>当前求和为:{store.getState()}</h1>
       <select ref="userSelected">
         <option value="1">1</option>
         <option value="2">2</option>
