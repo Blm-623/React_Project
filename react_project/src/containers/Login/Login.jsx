@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Form, Input, Button } from 'antd';
-// import ajax from '../../api/ajax'
+import { Form, Input, Button,message } from 'antd';
+import {connect} from 'react-redux'
+import {saveUserInfo} from '../../redux/action/login'
+
 import {reqLogin} from '../../api/index'
 
 import "./css/login.less"
@@ -18,14 +20,23 @@ import logo from './images/logo.png'
 // })
 
 
-export default class Login extends Component {
+class Login extends Component {
    
      onFinish = async values => {
        //表单提交并且验证数据成功的回调函数 自动收集数据
       //  发送axios请求
       // values 为json格式 服务器不认识 所以自己要拼写uainc
       let result = await reqLogin(values)
-      console.log(result);
+      // console.log(result);
+      let {status,data,msg} = result
+      if (status === 0) {
+        message.success('登录成功 小伙子！',1)
+        this.props.saveUserInfo(data)//存取用户信息
+        // 在登录成功是 挑战到 admin页面。。。
+        this.props.history.replace('/admin')
+      } else{
+        message.error(msg)
+      }
   }
   passwordTest=(_,value="")=>{//value设置一个默认值 否则自定义的规则 返回的是一个undefined
     // vlaues就是可在表单输入的内容
@@ -99,3 +110,9 @@ export default class Login extends Component {
     )
   }
 }
+export default connect(
+  () => ({}),//映射状态
+  {
+    saveUserInfo
+  }
+)(Login)

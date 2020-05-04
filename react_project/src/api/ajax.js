@@ -2,6 +2,10 @@
 import axios from 'axios'
 import qs from 'querystring'
 import { message as msg } from 'antd';
+// 引入网络请求进度条
+import nprogress from 'nprogress'
+// 引入进度条的样式
+import 'nprogress/nprogress.css'
 // axios拦截器作用1
 //                解决服务器不能解决json问题 将json转化为urlencoded格式
           //       统一返回data数据 而不是从response中拿到data
@@ -11,6 +15,7 @@ axios.defaults.baseURL = "http://localhost:3000"
 axios.defaults.timeout = 2000
  // 请求拦截器
 axios.interceptors.request.use((config)=>{
+  nprogress.start()
   const {method,data}=config
   if (method.toLocaleLowerCase()==="post" && data instanceof Object) {
     config.data = qs.stringify(data)
@@ -21,10 +26,13 @@ axios.interceptors.request.use((config)=>{
 axios.interceptors.response.use(
   // 返回的状态码是2开头
   response =>{
+    nprogress.done()
     return response.data
   },
   // 不是2开头 超时时间 网路不通
   error =>{
+    nprogress.done()
+
     let errmsg = '未知错误,联系管理员'
     const {message} = error
     if (message.indexOf('404') !== -1) {
