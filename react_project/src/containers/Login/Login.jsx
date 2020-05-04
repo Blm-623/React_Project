@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Form, Input, Button,message } from 'antd';
 import {connect} from 'react-redux'
 import {saveUserInfo} from '../../redux/action/login'
-
+import {Redirect} from 'react-router-dom'
 import {reqLogin} from '../../api/index'
 
 import "./css/login.less"
@@ -63,6 +63,10 @@ class Login extends Component {
     
   }
   render() {
+    if (this.props.isLogin) {
+      // 在render函数中 用redirect进行跳转
+     return <Redirect to ="/admin"/>
+    }
     return (
       <div className="login">
         <header>
@@ -111,7 +115,7 @@ class Login extends Component {
   }
 }
 export default connect(
-  () => ({}),//映射状态
+  (state) => ({isLogin:state.userInfo.isLogin}),//映射状态
   {
     saveUserInfo
   }

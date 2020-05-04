@@ -1,4 +1,4 @@
-import {SAVE_USERINFO} from '../action_type'
+import {SAVE_USERINFO,DELE_USERINFO} from '../action_type'
 
 export const saveUserInfo = userObj => {
   let {user,token}=userObj
@@ -7,4 +7,9 @@ export const saveUserInfo = userObj => {
   localStorage.setItem('token',token)
 
   return{ type:SAVE_USERINFO,data:userObj}
+}
+
+export const deleteUserInfo = () => {
+  localStorage.clear()
+  return{ type:DELE_USERINFO}
 }
