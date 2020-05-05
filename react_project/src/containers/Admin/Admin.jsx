@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import {deleteUserInfo} from '../../redux/action/login'
+import { Layout } from 'antd'
+import './admin.less'
+import Header from './Header/Header'
+
+const {  Footer, Sider, Content } = Layout;
 class Admin extends Component {
-  logout =()=>{
-    // 删除哟呵护数据
-    this.props.deleteUserInfo()
-    
-  }
   render() {
 
     if (!this.props.isLogin) {
@@ -15,10 +14,14 @@ class Admin extends Component {
      return <Redirect to ="/login"/>
     }
     return (
-      <div style={{fontSize:'20px'}}>
-        Admin... {this.props.username} 登录成功
-        <button onClick={this.logout}>退出denglv</button>
-      </div>
+      <Layout className="admin-css">
+      <Sider>Sider</Sider>
+      <Layout>
+        <Header />
+        <Content>Content</Content>
+        <Footer>Footer</Footer>
+      </Layout>
+    </Layout>
     )
   }
 }
@@ -26,12 +29,11 @@ class Admin extends Component {
 export default connect(
   (state)=>({
     
-    username:state.userInfo.user.username,
     isLogin:state.userInfo.isLogin
   
   }),//映射状态
   {
-    deleteUserInfo
+    
   }//操作状态方法
 )(Admin)
  
