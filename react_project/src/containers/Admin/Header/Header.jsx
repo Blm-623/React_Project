@@ -43,15 +43,17 @@ componentDidMount(){
 }
 
   render() {
+    let {username}=this.props
+    let {isFull}=this.state
     return (
       <div className="header">
        <div className="header-top">
         <Button size="small" onClick={this.requestFull}>
-          {this.state.isFull ? <FullscreenExitOutlined /> : <FullscreenOutlined /> }
+          {isFull ? <FullscreenExitOutlined /> : <FullscreenOutlined /> }
          
           
         </Button>
-        <span className="username">欢迎你,乔治</span>
+    <span className="username">欢迎你,{username}</span>
         <Button type="link"onClick={this.logout}>退出登录</Button>
        </div>
        <div className="header-bottom">
@@ -67,7 +69,7 @@ componentDidMount(){
   }
 }
 export default connect(
-  (state)=>({}),//应声状态
+  (state)=>({username:state.userInfo.user.username}),//应声状态
   {
     deleteUserInfo
   }
