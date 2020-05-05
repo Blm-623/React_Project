@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-import {Button} from 'antd'
-import {FullscreenOutlined ,FullscreenExitOutlined} from '@ant-design/icons';
+import {Button,Modal} from 'antd'
+import {FullscreenOutlined ,FullscreenExitOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 // 全屏引入
 import screenfull  from 'screenfull'
 import {connect} from 'react-redux'
-import {} from '../../../redux/action/login'
+import {deleteUserInfo} from '../../../redux/action/login'
 import './css/header.less'
-export default class Header extends Component {
+
+const { confirm } = Modal;
+ class Header extends Component {
   state={
     isFull:false
   }
@@ -16,6 +18,21 @@ export default class Header extends Component {
   }
 // 退出登录
   logout=()=>{
+    confirm({
+      title: '确定退出吗？',
+      icon: <ExclamationCircleOutlined />,
+      content: '想好了',
+      cancelText:'取消',
+      okText:'确定',
+// 这里的this指向有问题  要用箭头函数
+      onOk:()=> {
+        this.props.deleteUserInfo()
+      },
+      onCancel() {
+
+      },
+    });
+    
 
   }
 componentDidMount(){
@@ -52,6 +69,6 @@ componentDidMount(){
 export default connect(
   (state)=>({}),//应声状态
   {
-
+    deleteUserInfo
   }
 )(Header)
