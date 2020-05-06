@@ -19,7 +19,10 @@ import logo from './images/logo.png'
 //   return config
 // })
 
-
+@connect((state) => ({isLogin:state.userInfo.isLogin}),//映射状态
+{
+  saveUserInfo
+})
 class Login extends Component {
    
      onFinish = async values => {
@@ -114,9 +117,4 @@ class Login extends Component {
     )
   }
 }
-export default connect(
-  (state) => ({isLogin:state.userInfo.isLogin}),//映射状态
-  {
-    saveUserInfo
-  }
-)(Login)
+export default Login

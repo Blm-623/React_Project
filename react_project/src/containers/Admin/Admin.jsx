@@ -6,6 +6,17 @@ import './admin.less'
 import Header from './Header/Header'
 
 const {  Footer, Sider, Content } = Layout;
+
+@connect(
+  (state)=>({
+    
+  isLogin:state.userInfo.isLogin
+
+}),//映射状态
+{
+  
+}//操作状态方法
+)
 class Admin extends Component {
   render() {
 
@@ -25,15 +36,4 @@ class Admin extends Component {
     )
   }
 }
-
-export default connect(
-  (state)=>({
-    
-    isLogin:state.userInfo.isLogin
-  
-  }),//映射状态
-  {
-    
-  }//操作状态方法
-)(Admin)
- 
+export default Admin
