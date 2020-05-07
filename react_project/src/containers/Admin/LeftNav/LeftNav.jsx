@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Menu } from 'antd';
 import menus from '@/config/menu_config'
-
+import {NavLink} from 'react-router-dom'
 
 
 import './css/leftNav.less'
@@ -13,14 +13,23 @@ export default class LeftNav extends Component {
     return menuArr.map((menuObj)=>{
      if (!menuObj.children) {
       return (
-        <Item key={menuObj.key} icon={<menuObj.icon/>}>
-              {menuObj.title}
+        
+        <Item key={menuObj.key} >
+          <NavLink to={menuObj.path} style={{color:"white"}} >
+          <menuObj.icon/>
+          {menuObj.title}
+          </NavLink>
        </Item>
       )
      }else{
        return (
         //  打死也得记住。。。
-         <SubMenu key ={menuObj.key} icon={<menuObj.icon/>} title={menuObj.title}>
+         <SubMenu 
+          key ={menuObj.key} 
+          icon={<menuObj.icon/>} 
+          title={menuObj.title}
+          style={{color:"white"}}
+         >
            {this.createMenu(menuObj.children)}
          </SubMenu>
        )
