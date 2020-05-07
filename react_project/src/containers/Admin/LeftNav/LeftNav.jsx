@@ -46,7 +46,6 @@ const { SubMenu,Item } = Menu;
     // const chekey = pathname.split('/')[2]
     const chekeyy = pathname.split('/').splice(-2)[0]
     // const openkey = pathname.split('/') //老师的
-    console.log(chekeyy);
     return (
       <div className="left-nav">
         <div className="left-top">
@@ -57,7 +56,7 @@ const { SubMenu,Item } = Menu;
           <div>
         
           <Menu
-            defaultSelectedKeys={chekey}//默认选中哪个菜单
+            selectedKeys={chekey}//默认选中哪个菜单
             defaultOpenKeys={[chekeyy]}//默认展开哪个菜单
             // defaultOpenKeys={openkey}//默认展开哪个菜单
             mode="inline"//菜单模式
