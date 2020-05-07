@@ -16,9 +16,3 @@ export default class App extends Component {
     )
   } 
 }
-function dome(target) {
-  target.a = 1
-  target.a = 2
-}
-@dome
-class MyClass{}

@@ -2,27 +2,21 @@ import React, { Component } from 'react'
 import { Form, Input, Button,message } from 'antd';
 import {connect} from 'react-redux'
 import {saveUserInfo} from '../../redux/action/login'
-import {Redirect} from 'react-router-dom'
+// import {Redirect} from 'react-router-dom'
+import Check from '@/containers/Hoc/Check'
 import {reqLogin} from '../../api/index'
 
 import "./css/login.less"
 import logo from './images/logo.png'
 
-// // axios拦截器作用1
-// //                解决服务器不能解决json问题 将json转化为urlencoded格式
-//           //       统一返回data数据 而不是从response中拿到data
-// axios.interceptors.request.use((config)=>{
-//   const {method,data}=config
-//   if (method.toLocaleLowerCase()==="post" && data instanceof Object) {
-//     config.data = qs.stringify(data)
-//   }
-//   return config
-// })
 
-@connect((state) => ({isLogin:state.userInfo.isLogin}),//映射状态
+@connect(
+  state => ({isLogin:state.userInfo.isLogin}),//映射状态
 {
   saveUserInfo
-})
+}
+)
+@Check
 class Login extends Component {
    
      onFinish = async values => {
@@ -66,10 +60,10 @@ class Login extends Component {
     
   }
   render() {
-    if (this.props.isLogin) {
-      // 在render函数中 用redirect进行跳转
-     return <Redirect to ="/admin"/>
-    }
+    // if (this.props.isLogin) {
+    //   // 在render函数中 用redirect进行跳转
+    //  return <Redirect to ="/admin"/>
+    // }
     return (
       <div className="login">
         <header>

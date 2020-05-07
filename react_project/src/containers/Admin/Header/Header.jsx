@@ -1,19 +1,28 @@
 import React, { Component } from 'react'
 import {Button,Modal} from 'antd'
 import {FullscreenOutlined ,FullscreenExitOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs'
 // 全屏引入
 import screenfull  from 'screenfull'
 import {connect} from 'react-redux'
 import {deleteUserInfo} from '../../../redux/action/login'
 import './css/header.less'
+import {reqWeatherData} from '@/api/index'
 
 const { confirm } = Modal;
+@connect( 
+  state =>({username:state.userInfo.user.username}),//应声状态
+{
+  deleteUserInfo
+}
+)
  class Header extends Component {
   state={
-    isFull:false
+    isFull:false,
+    time: dayjs().format('YYYY年MM月DD日 HH:mm:ss'),
+    weatherData:{},//天气信息
   }
   requestFull=()=>{
-   
     screenfull.toggle()
   }
 // 退出登录
@@ -35,16 +44,29 @@ const { confirm } = Modal;
     
 
   }
+  // 请求天气信息
+   getWeather= async ()=>{
+    let result = await reqWeatherData()
+    const {dayPictureUrl,weather,temperature} = result
+    this.setState({weatherData:{dayPictureUrl,weather,temperature}})
+    }
 componentDidMount(){
   screenfull.onchange(()=>{
     let {isFull}=this.state
     this.setState({isFull:!isFull})
   })
+  this.timer=setInterval(() => {
+   this.setState({time:dayjs().format('YYYY年MM月DD日 HH:mm:ss')})
+  }, 1000);
+  // 天气请求
+//  this.getWeather()
 }
-
+componentWillUnmount(){
+  clearInterval(this.timer)
+}
   render() {
     let {username}=this.props
-    let {isFull}=this.state
+    let {isFull,time,weatherData}=this.state
     return (
       <div className="header">
        <div className="header-top">
@@ -61,16 +83,14 @@ componentDidMount(){
            <span>首页</span>
          </div>
          <div className="bottom-right">
-          <span> xx年xx月xx日 天气晴</span>
+          <span> {time}</span>
+          <img src={weatherData.dayPictureUrl} alt=""/>
+          <span className='tianqi'>{weatherData.weather}</span>
+          <span className='wendu'>温度:{weatherData.temperature}</span>
          </div>
        </div>
       </div>
     )
   }
 }
-export default connect(
-  (state)=>({username:state.userInfo.user.username}),//应声状态
-  {
-    deleteUserInfo
-  }
-)(Header)
+export default Header
